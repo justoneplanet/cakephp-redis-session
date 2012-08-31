@@ -1,4 +1,4 @@
-# Redis Session Store for CakePHP
+# Redis Session Store for CakePHP 2
 
 This class can be used in [CakePHP](http://cakephp.org) and saves 
 session data into [Redis](http://redis.io), an open source key-value store.
