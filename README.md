@@ -5,11 +5,11 @@ session data into [Redis](http://redis.io), an open source key-value store.
 
 ## Installation
 
-1. Place the ```redis_session.php``` into ```[yourapp]/config/```.
-2. Open ```[yourapp]/config/core.php``` and find ```'Session.save'```.
-3. Change the value of the Configure call so that it looks like this:
+1. Place the ```RedisSession.php``` into ```app/Model/DataSource/Session/```.
+2. Open ```app/Config/core.php``` and find ```'Session'```.
+3. Add the value of the Configure:
 
-    ```Configure::write('Session.save', 'redis_session');```
+    ```Configure::write('Session.handler', array('engine' => 'RedisSession'));```
     
 That's it.
 
@@ -29,11 +29,13 @@ If you run on a different host you have to add two config settings
 in your ```core.php``` to setup the connection.
 
     Configure::write('RedisSession.hostname', 'some.host.name');
-    Configure::write('RedisSession.port', 1337);
-    
+    Configure::write('RedisSession.port', 1337);//port
+    Configure::write('RedisSession.password', 'your password');// password
+    Configure::write('RedisSession.database', 0);// database number
+
 ## About
 
-I've ran the core component tests with this store enabled (CakePHP 1.3.10).
+I've ran the core component tests with this store enabled (CakePHP 2.1.3).
 
 The class comes with [iRedis](https://github.com/dhorrigan/iRedis), a very
 lightweight Redis Library by Dan Horrigan. The library is embedded inside
