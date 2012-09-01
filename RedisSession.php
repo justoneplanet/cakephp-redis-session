@@ -58,10 +58,10 @@ class RedisSession extends DatabaseSession implements CakeSessionHandlerInterfac
         $database = Configure::read('RedisSession.database');
 
         if ($host !== null && $port !== null) {
-            $redis = new iRedis(array('hostname' => $host, 'port' => $port));
+            $redis = new iRedisForRedisSession(array('hostname' => $host, 'port' => $port));
         }
         else {
-            $redis = new iRedis();
+            $redis = new iRedisForRedisSession();
         }
         if (!empty($password)) {
             $redis->auth($password);
@@ -79,7 +79,7 @@ class RedisSession extends DatabaseSession implements CakeSessionHandlerInterfac
      * @return type 
      */
     public function close() {
-        self::$store->__destruct();
+        self::$store->disconnect();
         return true;
     }
 
@@ -125,4 +125,19 @@ class RedisSession extends DatabaseSession implements CakeSessionHandlerInterfac
     public function gc($expires = null) {
         return true;
     }
+}
+if (!class_exists('iRedisForRedisSession')) {
+
+    class iRedisForRedisSession extends iRedis {
+
+        function __destruct() {
+            // don't disconnect yet
+        }
+
+        function disconnect() {
+            parent::__destruct();
+        }
+
+    }
+
 }
